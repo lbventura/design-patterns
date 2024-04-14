@@ -1,3 +1,7 @@
+# The observer pattern defines a one-to-many dependency between objects so that when one object changes state,
+# all of its dependents are notified and updated automatically.
+
+
 import uuid
 import random
 from time import sleep
@@ -13,6 +17,13 @@ class Observer:
 
 
 class Subject:
+    """The only thing that the subject knows about an observer is that it implements a certain interface.
+    It does not need to know about the concrete class of the observer (see below), what it does, or anything.
+
+    Changes to either the subject or an observer will not affect the other. Because the two are loosely coupled,
+    we are free to make changes to either, as long as the objects still meet their obligations to implement the subject
+    or observer interfaces.
+    """
 
     def register_observer(self, observer: Observer):
         raise NotImplementedError
@@ -51,7 +62,7 @@ class GenericDisplay(Observer, Display):
 
     def display(self) -> None:
         print(f"The values for temperature, humidity and pressure are now, respectively "
-              f"{self.temperature} , {self.humidity}, {self.pressure}")
+              f"{self.temperature} , {self.humidity}, {self.pressure}.")
 
 
 class WeatherData(Subject):
@@ -106,10 +117,12 @@ class WeatherStation:
 if __name__ == '__main__':
     montana_weather_data = WeatherData()
 
+    montana_obs = None
     for _ in range(1, 3):
         montana_obs = GenericDisplay(weather_data=montana_weather_data)
 
     print(montana_weather_data.observers)
+    assert montana_obs is not None
     montana_weather_data.remove_observer(observer=montana_obs)  # remove the last added observer
 
     print(montana_weather_data.observers)

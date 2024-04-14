@@ -11,14 +11,17 @@ class QuackBehavior:
 
 
 class Duck:
+    """The biggest difference between the Duck class in this module and in 'chapter_1_strategy.py'
+    is that the Duck class accepts the flyBehavior and quackBehavior parameters at runtime.
+    Therefore, we avoid the need for the setter methods set_fly_behavior and set_quack_behavior."""
     def __init__(self, flyBehavior: FlyBehavior, quackBehavior: QuackBehavior):
         self.flyBehavior = flyBehavior
         self.quackBehavior = quackBehavior
 
-    def performfly(self):
+    def perform_fly(self):
         return self.flyBehavior.fly()
 
-    def performquack(self):
+    def perform_quack(self):
         return self.quackBehavior.quack()
 
     @classmethod
@@ -51,7 +54,7 @@ if __name__ == '__main__':
 
     print("Mallard Duck")
     mallard_duck = MallardDuck(flyBehavior=FlyWithWings(), quackBehavior=Quack())
-    print(mallard_duck.performfly())
-    print(mallard_duck.performquack())
+    print(mallard_duck.perform_fly())
+    print(mallard_duck.perform_quack())
     print(mallard_duck.swim())
     print(mallard_duck.display())

@@ -8,9 +8,11 @@ class Command:
 
 
 class NoCommand(Command):
+    """This is an example of a `null` object. A null object is useful when you do not have a meaningful object to
+    return, and yet you want to remove the responsibility for handling `null` from the client"""
 
     def execute(self) -> None:
-        print("Let me do nothing")
+        print("Let me do nothing.")
         pass
 
 
@@ -84,7 +86,7 @@ class LightOnCommand(Command):
 
     def execute(self) -> None:
         self.light.on()
-        print("Light was turned on")
+        print("Light was turned on.")
 
 
 class LightOffCommand(Command):
@@ -94,7 +96,7 @@ class LightOffCommand(Command):
 
     def execute(self) -> None:
         self.light.off()
-        print("Light was turned off")
+        print("Light was turned off.")
 
 
 class GarageDoorOpenCommand(Command):
@@ -104,7 +106,7 @@ class GarageDoorOpenCommand(Command):
 
     def execute(self) -> None:
         self.garage_door.up()
-        print("The garage door is up")
+        print("The garage door is up.")
 
 
 class GarageDoorCloseCommand(Command):
@@ -114,7 +116,7 @@ class GarageDoorCloseCommand(Command):
 
     def execute(self) -> None:
         self.garage_door.down()
-        print("The garage door is down")
+        print("The garage door is down.")
 
 
 class StereoOnWithCDCommand(Command):
@@ -126,7 +128,7 @@ class StereoOnWithCDCommand(Command):
         self.stereo.on()
         self.stereo.set_cd()
         self.stereo.set_volume(volume=11)
-        print("The stereo is now on, playing some Barry White")
+        print("The stereo is now on, playing some Barry White...")
 
 
 class StereoOffCommand(Command):
@@ -136,7 +138,7 @@ class StereoOffCommand(Command):
 
     def execute(self) -> None:
         self.stereo.off()
-        print("The stereo is now off")
+        print("The stereo is now off.")
 
 
 class JacuzziOnCommand(Command):
@@ -160,6 +162,7 @@ class JacuzziOffCommand(Command):
 
 
 class MacroCommand(Command):
+    """This combines multiple commands to be executed sequentially."""
 
     def __init__(self, commands: List[Command]):
         self.commands = commands
@@ -240,7 +243,7 @@ if __name__ == '__main__':
     print("... Quitting just ain't my shtick ...")
     src.remote_control.press_undo_button()
 
-    # Because no button was added to slot 2, pressing the on button should print
+    # Because no button was added to slot 6, pressing the on button should print
     # "Let me do nothing". If we had used the Command interface,
     # we would have raised a NonImplementedError
     src.remote_control.press_on_button(slot=6)

@@ -30,5 +30,5 @@ if __name__ == '__main__':
     process_1 = Thread(target=test_singleton, args=('First_value', ))
     process_2 = Thread(target=test_singleton, args=('This value should not be printed', ))
 
-    process_1.start()
-    process_2.start()
+    process_1.start()  # prints 'First_value'
+    process_2.start()  # also prints 'First_value'

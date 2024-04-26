@@ -1,4 +1,6 @@
-# see https://refactoring.guru/design-patterns/singleton/python/example
+# The singleton pattern ensures a class has only one instance and provides a global point of access to it.
+# Avoid subclassing a Singleton!
+# See https://refactoring.guru/design-patterns/singleton/python/example
 from sys import _getframe
 
 
@@ -14,7 +16,7 @@ class SingletonMeta(type):
 
 class Singleton(metaclass=SingletonMeta):
     """
-    It is possible to initialize Singleton multiple times but
+    It is possible to initialize Singleton multiple times, but
     SingletonMeta guarantees that we obtain the same instance.
 
     This is not what is done in the Head First Design Patterns
@@ -32,7 +34,7 @@ class HeadFirstSingleton:
             raise Exception("This class should not be initialized outside get_instance.")
 
     @classmethod
-    def get_instance(cls):
+    def get_instance(cls) -> "HeadFirstSingleton":
         if cls.unique_instance is None:
             cls.unique_instance = HeadFirstSingleton()
         return cls.unique_instance

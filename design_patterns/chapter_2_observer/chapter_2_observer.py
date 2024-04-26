@@ -68,6 +68,7 @@ class GenericDisplay(Observer, Display):
 class WeatherData(Subject):
 
     def __init__(self):
+        # having chosen a concrete data type to store the observers, one can now implement the remaining methods.
         self.observers: dict = {}
         self.temperature: float = 0.0
         self.humidity: float = 0.0
@@ -118,17 +119,22 @@ if __name__ == '__main__':
     montana_weather_data = WeatherData()
 
     montana_obs = None
+
+    # add two observers
     for _ in range(1, 3):
         montana_obs = GenericDisplay(weather_data=montana_weather_data)
 
     print(montana_weather_data.observers)
     assert montana_obs is not None
-    montana_weather_data.remove_observer(observer=montana_obs)  # remove the last added observer
 
+    montana_weather_data.remove_observer(observer=montana_obs)  # remove the last added observer
     print(montana_weather_data.observers)
 
+    # initial weather values
     montana_weather_data.set_measurements(temperature=15.0, humidity=85.3, pressure=1.1)
-    print(montana_weather_data.temperature)
+    # note that, after set_measurements, the observers have already been notified
+    assert ([observer.temperature for observer in montana_weather_data.observers.values()] ==
+            [15.0] * len(montana_weather_data.observers))
 
     weather_station = WeatherStation()
     weather_station.generate_measurements()

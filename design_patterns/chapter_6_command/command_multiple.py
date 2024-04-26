@@ -240,7 +240,7 @@ if __name__ == '__main__':
     print("... Quitting just ain't my shtick ...")
     src.remote_control.press_undo_button()
 
-    # because no button was added to slot 2, pressing the on button should print
+    # Because no button was added to slot 2, pressing the on button should print
     # "Let me do nothing". If we had used the Command interface,
     # we would have raised a NonImplementedError
     src.remote_control.press_on_button(slot=6)

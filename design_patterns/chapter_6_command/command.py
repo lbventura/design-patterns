@@ -1,3 +1,9 @@
+# The command pattern encapsulates a request as an object, thereby allowing the parametrization of other objects with
+# different requests. This pattern allows us to decouple the requester of the action from the object that performs
+# it. In the example below, the requester is `SimpleRemoteControl` and the object that performs the action is a
+# concrete implementation of Command.
+# To fully see the usefulness of this pattern, see `command_diner.py`.
+
 class Command:
 
     def execute(self):

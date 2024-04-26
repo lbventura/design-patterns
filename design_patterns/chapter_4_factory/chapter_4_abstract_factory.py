@@ -1,3 +1,13 @@
+# Because instantiating objects can lead to coupling problems, the factory pattern defines an interface for creating
+# an object, while letting subclasses decide which objects to instantiate.
+# The abstract factory pattern provides an interface for creating **families** of related or dependent objects without
+# specifying their concrete classes.
+
+# Both Factory Method and Abstract Factory create objects, but the former does it through *inheritance*
+# (i.e, extend a class and override a factory method, in our case `create_pizza`.
+# The inheritance in this case can be seen at the level of dough, sauce and toppings)
+# and the latter through *object composition*.
+
 class Dough:
     pass
 
@@ -56,6 +66,14 @@ class Pizza:
 class PizzaStore:
     @classmethod
     def order_pizza(cls, pizza_type: str) -> Pizza:
+        """
+        Note that `order_pizza` is defined in the class, not in the subclass.
+        Therefore, this method has no idea which subclass is actually running the code and making the pizzas.
+        It is the subclasses of `PizzaStore` that handle object instantiation for us in the `create_pizza` method.
+
+        :param pizza_type:
+        :return:
+        """
         pizza = cls.create_pizza(pizza_type=pizza_type)
 
         pizza.prepare()
@@ -70,9 +88,13 @@ class PizzaStore:
 
 
 class PizzaIngredientFactory:
+    """This abstract interface defines how to make a family of related products (e.g., the ingredients).
+    The disadvantage here is that one would need to add a new method here (and to the corresponding) subclasses
+    if a new ingredient (for example, pineapple) was added."""
 
     @classmethod
     def create_dough(cls):
+        """Each ingredient represents a product produced by a Factory Method in the Abstract Factory."""
         raise NotImplementedError
 
     @classmethod
@@ -118,6 +140,33 @@ class FreshClams(Clams):
 
 class DicedVeggies(Veggies):
     pass
+
+
+class NYPizzaIngredientFactory(PizzaIngredientFactory):
+
+    @classmethod
+    def create_dough(cls) -> Dough:
+        return ThinCrustDough()
+
+    @classmethod
+    def create_sauce(cls) -> Sauce:
+        return MarinaraSauce()
+
+    @classmethod
+    def create_cheese(cls) -> Cheese:
+        return ReggianoCheese()
+
+    @classmethod
+    def create_veggies(cls) -> Veggies:
+        return DicedVeggies()
+
+    @classmethod
+    def create_pepperoni(cls) -> Pepperoni:
+        return SlicedPepperoni()
+
+    @classmethod
+    def create_clam(cls) -> Clams:
+        return FreshClams()
 
 
 class CheesePizza(Pizza):
@@ -171,37 +220,13 @@ class VeggiePizza(Pizza):
         self.veggies = self.ingredient_factory.create_veggies()
 
 
-class NYPizzaIngredientFactory(PizzaIngredientFactory):
-
-    @classmethod
-    def create_dough(cls) -> Dough:
-        return ThinCrustDough()
-
-    @classmethod
-    def create_sauce(cls) -> Sauce:
-        return MarinaraSauce()
-
-    @classmethod
-    def create_cheese(cls) -> Cheese:
-        return ReggianoCheese()
-
-    @classmethod
-    def create_veggies(cls) -> Veggies:
-        return DicedVeggies()
-
-    @classmethod
-    def create_pepperoni(cls) -> Pepperoni:
-        return SlicedPepperoni()
-
-    @classmethod
-    def create_clam(cls) -> Clams:
-        return FreshClams()
-
-
 class NYPizzaStore(PizzaStore):
+    """The factory method `create_pizza` is implemented in the concrete subclass of PizzaStore, NYPizzaStore.
+    It is this factory method that is responsible for instantiation."""
 
     @classmethod
     def create_pizza(cls, pizza_type: str) -> Pizza:
+        # this is where the object composition happens
         ingredient_factory: PizzaIngredientFactory = NYPizzaIngredientFactory()
 
         if pizza_type == "cheese":

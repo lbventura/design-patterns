@@ -1,3 +1,5 @@
+# In the simple factory approach, the factory is another object composed with PizzaStore.
+
 class Pizza:
     status: str = "Order"
 
@@ -57,7 +59,7 @@ class SimplePizzaFactory:
 
 class PizzaStore:
     """
-    Implementation using SimplePizzaFactory
+    Implementation using SimplePizzaFactory. Here the factory (SimplePizzaFactory) is composed with PizzaStore.
     """
     def __init__(self, factory: SimplePizzaFactory):
         self.factory = factory

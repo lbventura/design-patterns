@@ -1,3 +1,6 @@
+# In the factory method pattern, the PizzaStore interface delegates the implementation of create_pizza to a concrete
+# class (in this case, NYPizzaStore)
+
 from typing import List
 
 
@@ -69,7 +72,8 @@ class NYVeggiePizza(Pizza):
 
 
 class NYPizzaStore(PizzaStore):
-
+    """Note that, unlike the abstract factory case, there is no flexibility to change the ingredients.
+    That is, these are fixed in the definition of the concrete Pizza instance, e.g., NYCheesePizza."""
     @classmethod
     def create_pizza(cls, pizza_type: str) -> Pizza:
         if pizza_type == "cheese":

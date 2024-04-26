@@ -1,3 +1,13 @@
+# The decorator pattern attaches additional responsibilities to an object dynamically,
+# thereby providing a flexible alternative to subclassing when one wants to extend a class' functionality.
+# In the example below, instances of the Beverage class get decorated with instances of CondimentDecorator
+# thereby allowing a modification of Beverage.description, but also an extension of functionality (for example,
+# with the method Whip.get_whip).
+
+# Note: Inheritance is used to achieve *type matching* and NOT to get behavior.
+# When we compose a decorator with a component, we are adding new behavior:
+# this comes in through the composition of decorators with the base components as well as other decorators.
+
 def _size_to_multiplier(size: str) -> float:
     if size == 'S':
         return 1.
@@ -62,6 +72,7 @@ class HouseBlend(Beverage):
 class Mocha(CondimentDecorator):
 
     def __init__(self, beverage: Beverage):
+        # the concrete decorator has an instance variable for the component the decorator is wrapping.
         self.beverage = beverage
 
     def get_description(self):
@@ -71,7 +82,8 @@ class Mocha(CondimentDecorator):
         base_price = 0.20
         return self.beverage.cost() + base_price * self.beverage.get_multiplier()
 
-    def get_mocha(self) -> str:
+    @staticmethod
+    def get_mocha() -> str:
         return "Mochaccinos are the cutest!"
 
 
@@ -100,15 +112,20 @@ class Whip(CondimentDecorator):
         base_price = 0.10
         return self.beverage.cost() + base_price * self.beverage.get_multiplier()
 
-    def get_whip(self) -> str:
+    @staticmethod
+    def get_whip() -> str:
         return "Whip it baby, ooh, whip it right!"
 
 
 if __name__ == '__main__':
+    # because Whip, Soy and Mocha (i.e., the decorators, which are instances of CondimentDecorator)
+    # have the same supertype as Expresso (i.e., Beverage), they can be used multiple times.
     whip_soy_mocha_expresso = Whip(Soy(Mocha(Expresso())))
     assert "Expresso, Mocha, Soy, Whip" == whip_soy_mocha_expresso.get_description()
     assert isinstance(whip_soy_mocha_expresso.beverage, Soy)
     assert isinstance(whip_soy_mocha_expresso.beverage.beverage, Mocha)
+    assert isinstance(whip_soy_mocha_expresso.beverage.beverage.beverage, Expresso)
+    assert whip_soy_mocha_expresso.get_whip() == "Whip it baby, ooh, whip it right!"
 
     print("New drink coming up!")
     medium_expresso = Expresso()

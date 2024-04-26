@@ -1,3 +1,7 @@
+# The biggest difference between the Duck class in this module and in 'chapter_1_strategy.py'
+# is that the Duck class accepts the flyBehavior and quackBehavior parameters at runtime.
+# Therefore, we avoid the need for the setter methods set_fly_behavior and set_quack_behavior.
+
 class FlyBehavior:
     @classmethod
     def fly(cls):
@@ -11,9 +15,6 @@ class QuackBehavior:
 
 
 class Duck:
-    """The biggest difference between the Duck class in this module and in 'chapter_1_strategy.py'
-    is that the Duck class accepts the flyBehavior and quackBehavior parameters at runtime.
-    Therefore, we avoid the need for the setter methods set_fly_behavior and set_quack_behavior."""
     def __init__(self, flyBehavior: FlyBehavior, quackBehavior: QuackBehavior):
         self.flyBehavior = flyBehavior
         self.quackBehavior = quackBehavior

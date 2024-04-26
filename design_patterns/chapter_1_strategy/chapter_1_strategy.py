@@ -1,5 +1,7 @@
 # The Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable.
-# Strategy lets the algorithm vary independently of clients that use it.*
+# Strategy lets the algorithm vary independently of clients that use it.
+# This is convenient because different users can share the same code.
+# In the example below, Icarus and RocketMan (i.e, the users) use the same FlyBehavior as Duck.
 
 
 class FlyBehavior:
@@ -45,6 +47,7 @@ class Duck:
 
 class FlyWithWings(FlyBehavior):
     """Implementation of FlyBehavior to perform a normal flight"""
+
     @classmethod
     def fly(cls) -> str:
         return "A normal flight!"
@@ -52,6 +55,7 @@ class FlyWithWings(FlyBehavior):
 
 class FlyWithRocket(FlyBehavior):
     """Implementation of FlyBehavior to perform a ROCKET flight"""
+
     @classmethod
     def fly(cls) -> str:
         return "ROCKET FLIGHT!"
@@ -59,6 +63,7 @@ class FlyWithRocket(FlyBehavior):
 
 class Quack(QuackBehavior):
     """Implementation of QuackBehavior to perform a normal quack"""
+
     @classmethod
     def quack(cls) -> str:
         return "A normal quack!"
@@ -70,32 +75,34 @@ class MallardDuck(Duck):
         return "I am a real Mallard duck!"
 
 
-class WeaponBehavior:
+class Man:
+    flyBehavior = FlyBehavior()
+
     @classmethod
-    def use_weapon(cls):
+    def perform_fly(cls):
+        return cls.flyBehavior.fly()
+
+    @classmethod
+    def set_fly_behavior(cls, fly_behavior: FlyBehavior) -> None:
+        cls.flyBehavior = fly_behavior
+
+    @classmethod
+    def sing(cls):
         raise NotImplementedError
 
 
-class KnifeBehavior(WeaponBehavior):
-    @classmethod
-    def use_weapon(cls) -> str:
-        return "Poke with staby stab!"
-
-
-class Character:
-    weapon = WeaponBehavior()
+class RocketMan(Man):
 
     @classmethod
-    def fight(cls):
-        return cls.weapon.use_weapon()
+    def sing(cls) -> str:
+        return "'Cause I am rocket man!"
+
+
+class Icarus(Man):
 
     @classmethod
-    def set_weapon(cls, weapon: WeaponBehavior):
-        cls.weapon = weapon
-
-
-class Queen(Character):
-    pass
+    def sing(cls) -> str:
+        return "I am flying close to the Sun!"
 
 
 if __name__ == '__main__':
@@ -116,6 +123,14 @@ if __name__ == '__main__':
     mallard_duck.set_fly_behavior(fly_behavior=FlyWithRocket())
     print(mallard_duck.perform_fly())
 
-    queen = Queen()
-    queen.set_weapon(weapon=KnifeBehavior())
-    print(queen.fight())
+    print("Rocket Man")
+    rocket_man = RocketMan()
+    print(rocket_man.sing())
+    rocket_man.set_fly_behavior(fly_behavior=FlyWithRocket())
+    print(rocket_man.perform_fly())
+
+    print("Icarus")
+    rocket_man = Icarus()
+    print(rocket_man.sing())
+    rocket_man.set_fly_behavior(fly_behavior=FlyWithWings())
+    print(rocket_man.perform_fly())

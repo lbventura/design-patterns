@@ -1,3 +1,9 @@
+# The template method pattern defines the skeleton of an algorithm in a method, deferring some steps to subclasses.
+# This pattern lets subclasses redefine certain steps of an algorithm without changing the algorithm's structure.
+# Most importantly:
+# * The methods which are specific are implemented in the subclasses;
+# * The methods which are general are implemented in the parent class;
+
 class CaffeineBeverage:
 
     @classmethod
@@ -26,6 +32,10 @@ class CaffeineBeverage:
 
 
 class Coffee(CaffeineBeverage):
+    # Note that Coffee does not call the abstract class without being called first
+    # i.e.; users will interact with these classes through the template method,
+    # `prepare_recipe`, which is called in CaffeineBeverage, which then delegates
+    # to the child classes for concrete implementations.
 
     @classmethod
     def brew(cls) -> None:

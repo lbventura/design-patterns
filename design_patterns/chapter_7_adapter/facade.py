@@ -1,3 +1,6 @@
+# The Facade pattern provides a unified interface to a set of interfaces in a subsystem.
+# Facades define a higher-level interface that makes the subsystem easier to use.
+
 class Amplifier:
 
     @classmethod
@@ -61,6 +64,8 @@ class DVDPlayer:
 
 
 class HomeTheaterFacade:
+    """Because we do not want the user of the HomeTheater to have to do all the individual operations
+    itself, we wrap these in the `prepare_movie` method."""
 
     def __init__(self, amplifier: Amplifier, popper: PopcornPopper,
                  theater_lights: TheaterLights, projector: Projector, dvd_player: DVDPlayer):

@@ -1,3 +1,6 @@
+# The Adapter pattern converts the interface of a class into another interface the client expects.
+# Adapters let classes work together that otherwise could not because of incompatible interfaces.
+
 class Duck(object):
 
     def __str__(self):
@@ -27,8 +30,9 @@ class Turkey(object):
 
 
 class TurkeyAdapter(Duck):
-    # Duck inheritance here is just so the correct type is returned
-    # see instantiation below
+    """This adapter allows us to create a Duck instance from composition with a Turkey.
+    One positive aspect is that even if Turkey changes (for example, the `gobble` method is replaced by
+    `shout` or `speak`), the Duck class remains isolated from it."""
 
     def __init__(self, turkey: Turkey):
         self.turkey = turkey
@@ -62,12 +66,14 @@ class ThanksgivingPardon:
 
 
 class TurkeyAdapterMultiple(Duck, Turkey):
+    """This adapter uses multiple inheritance rather than composition.
+    Since composition is favored over inheritance, the option above is preferred."""
 
     def quack(self) -> str:
         return self.gobble()
 
     def fly(self) -> str:
-        flight = super(Duck, self).fly()  # wrong super call but yields the correct result
+        flight = tam.__class__.__bases__[1]().fly()  # calls fly from Turkey
         return flight
 
 

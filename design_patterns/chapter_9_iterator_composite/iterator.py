@@ -1,3 +1,6 @@
+# The iterator pattern provides a way to access the elements of an aggregate object sequentially
+# without exposing its underlying representation.
+
 from typing import List
 
 
@@ -41,6 +44,8 @@ class Iterator:
 
 
 class PancakeHouseMenuIterator(Iterator):
+    # Implements the details particular to the dataclass used in PancakeHouseMenu to register menu_items
+    # e.g., a list
 
     def __init__(self, items: list):
         self.items = items
@@ -76,6 +81,8 @@ class PancakeHouseMenu(Menu):
 
 
 class DinerMenuIterator(Iterator):
+    # Implements the details particular to the dataclass used in DinerMenu to register menu_items
+    # e.g., a dict
 
     def __init__(self, items: dict):
         self.items = items

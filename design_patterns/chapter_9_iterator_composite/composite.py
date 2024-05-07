@@ -1,3 +1,6 @@
+# The composite pattern allows you to compose objects into tree structures to represent part-whole hierarchies.
+# Composite lets clients treat individual objects and compositions of objects uniformly.
+
 class MenuComponent:
 
     @classmethod
@@ -21,11 +24,11 @@ class MenuComponent:
         raise NotImplementedError
 
     @classmethod
-    def add(cls, menu_component: object):
+    def add(cls, menu_component: "MenuComponent"):
         raise NotImplementedError
 
     @classmethod
-    def remove(cls, menu_component: object):
+    def remove(cls, menu_component: "MenuComponent"):
         raise NotImplementedError
 
     @classmethod

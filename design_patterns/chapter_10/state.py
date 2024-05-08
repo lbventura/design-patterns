@@ -1,3 +1,13 @@
+# The State pattern allows an object to alter its behavior when its internal class changes.
+# The object will appear to have changed its class.
+# The class diagram of the State pattern is the same as that of Strategy, but the two patterns differ on their intent.
+# With state, the client knows very little (if anything) about the state objects.
+# With strategy, the client usually specifies the strategy object that the context is composed with.
+
+# Strategy is a flexible alternative to subclassing. One can change the behavior of an object through composition.
+# State is an alternative for long conditionals. One encapsulates the behaviors within state objects
+# and then changes state objects to obtain different behaviors.
+
 from random import random
 
 
@@ -19,6 +29,9 @@ class State:
 
 
 class GumballMachine:
+    # The implementation of each of the state's behaviors is left to the
+    # concrete implementation of State (for example, NoQuarterState).
+    # Thereby encapsulating what varies.
     def __init__(self, number_gumballs: int):
         self.no_quarter_state: State = NoQuarterState(gumball_machine=self)
         self.sold_out_state: State = SoldOutState(gumball_machine=self)
@@ -55,7 +68,7 @@ class GumballMachine:
             self.count -= 1
 
     def refill(self, number_gumballs: int):
-        self.state.refill(number_gumballs = number_gumballs)
+        self.state.refill(number_gumballs=number_gumballs)
 
 
 class SoldState(State):

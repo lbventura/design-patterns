@@ -9,6 +9,10 @@ class GumballMachine:
         self.count = 0
 
     def insert_quarter(self) -> None:
+        # This structure scales poorly because for each new state to be introduced,
+        # almost all methods would have to be modified to include this.
+        # This shows that GumballMachine should not be responsible for defining the states themselves.
+
         if self.state == self.HAS_QUARTER:
             raise ValueError("Cannot insert another quarter.")
 
@@ -21,6 +25,7 @@ class GumballMachine:
         elif self.state == self.NO_QUARTER:
             self.state = self.HAS_QUARTER
             print('A quarter has been inserted')
+        return
 
     def eject_quarter(self) -> None:
         if self.state == self.HAS_QUARTER:
@@ -35,6 +40,7 @@ class GumballMachine:
 
         elif self.state == self.SOLD_OUT:
             raise ValueError("No quarter has been inserted.")
+        return
 
     def turns_crank(self) -> None:
         if self.state == self.SOLD:
@@ -47,6 +53,7 @@ class GumballMachine:
             print("You get a gumball!")
             self.state = self.SOLD
             self.dispense()
+        return
 
     def dispense(self) -> None:
         initial_state = self.state
@@ -69,6 +76,7 @@ class GumballMachine:
 
         elif initial_state == self.HAS_QUARTER:
             raise ValueError("No gumball has been dispensed.")
+        return
 
     def stock_gumballs(self, num_gumballs: int) -> None:
         self.state = self.NO_QUARTER
@@ -80,11 +88,11 @@ if __name__ == '__main__':
     gbm.stock_gumballs(num_gumballs=50)
     print(gbm.state)
     print(gbm.count)
-    print(gbm.insert_quarter())
-    print(gbm.turns_crank())
+    gbm.insert_quarter()
+    gbm.turns_crank()
 
     print("Empty GBM")
     empty_gbm = GumballMachine()
     print(empty_gbm.state)
     print(empty_gbm.count)
-    print(empty_gbm.dispense())
+    empty_gbm.dispense()

@@ -1,3 +1,9 @@
+# The Model changes state and notifies the view of this change.
+# The View communicates the changes to the user.
+# The Controller manipulates the model after it is interacted with.
+# By keeping the view and the controller loosely coupled, one builds a more flexible and extensible design.
+
+
 from typing import List
 
 
@@ -17,6 +23,7 @@ class BPMObserver:
 
 class BeatModelInterface:
 
+    # these are the methods the controller will use to direct the model based on user interaction
     @classmethod
     def initialize(cls):
         raise NotImplementedError
@@ -33,6 +40,7 @@ class BeatModelInterface:
     def set_bpm(cls, bpm: int):
         raise NotImplementedError
 
+    # these methods allow the view and the controller to get state and become observers
     @classmethod
     def get_bpm(cls) -> int:
         raise NotImplementedError
@@ -181,7 +189,7 @@ class DJView(BeatObserver, BPMObserver):
             self.bpm_output_label.set_text("Offline")
             self.bpm_output_label.print_text()
         else:
-            self.bpm_output_label.set_text(f"Current BPM: {self.model.get_bpm()}")
+            self.bpm_output_label.set_text(f"Current BPM: {bpm}")
             self.bpm_output_label.print_text()
 
 

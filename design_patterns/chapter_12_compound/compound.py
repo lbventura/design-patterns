@@ -1,3 +1,6 @@
+# This example combines the Adapter, Decorator, Abstract Factory, Composite and Observer patterns.
+# For more details, see pages 523-525 of the book.
+
 from typing import List
 
 
@@ -40,6 +43,8 @@ class Quackologist(Observer):
 
 
 class Quackable(QuackObservable):
+    def __init__(self):
+        self.observable = Observable(duck=self)
 
     def __str__(self) -> str:
         return self.__class__.__name__
@@ -50,9 +55,6 @@ class Quackable(QuackObservable):
 
 
 class MallardDuck(Quackable):
-
-    def __init__(self):
-        self.observable = Observable(duck=self)
 
     def quack(self):
         print("Quack!")
@@ -91,9 +93,10 @@ class Goose:
 
 
 class GooseAdapter(Quackable):
-    # Adapter Pattern
+    # Adapter Pattern, note that Ducks are of type Quackable.
 
     def __init__(self, goose: Goose):
+        super().__init__()
         self.goose = goose
 
     def quack(self):
@@ -114,9 +117,10 @@ class QuackCounter(Quackable):
     # Decorator Pattern
 
     def __init__(self, duck: Quackable):
+        super().__init__()
         self.duck = duck
 
-    # see also page 220 of Effective Python
+    # see also page 220 of Slatkin's "Effective Python"
     @counter
     def quack(self):
         self.duck.quack()
@@ -178,6 +182,7 @@ class CountingDuckFactory(AbstractDuckFactory):
 class Flock(Quackable):
     # Composite Pattern
     def __init__(self):
+        super().__init__()
         self.quackers: list = []
 
     def add(self, quacker: Quackable):
